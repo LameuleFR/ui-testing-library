@@ -153,7 +153,7 @@ class BOSQLManagerPage extends BOBasePage implements BOSQLManagerPageInterface {
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
+    if (await this.isVisibleNow(page, this.filterResetButton)) {
       await this.clickAndWaitForLoadState(page, this.filterResetButton);
       await this.elementNotVisible(page, this.filterResetButton, 2000);
     }

@@ -170,6 +170,18 @@ export default class CommonPage implements CommonPageInterface {
   }
 
   /**
+   * Is an element matching the selector visible right now, without waiting.
+   * Use it instead of elementVisible/elementNotVisible with a timeout when the page is already
+   * rendered (server-side state): those wait the full timeout whenever the answer is "no".
+   * @param page {Frame|Page} Browser tab
+   * @param selector {string} String to locate the element
+   * @returns {Promise<boolean>}
+   */
+  async isVisibleNow(page: Frame | Page, selector: string): Promise<boolean> {
+    return (await page.locator(`${selector} >> visible=true`).count()) > 0;
+  }
+
+  /**
    * Is element visible
    * @param page {Frame|Page} Browser tab
    * @param selector {string} String to locate the element

@@ -214,7 +214,7 @@ class BOCarriersPage extends BOBasePage implements BOCarriersPageInterface {
    * @return {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (!(await this.elementNotVisible(page, this.filterResetButton, 2000))) {
+    if (await this.isVisibleNow(page, this.filterResetButton)) {
       await this.clickAndWaitForURL(page, this.filterResetButton, 'load', 30000, {
         position: {
           x: 2,

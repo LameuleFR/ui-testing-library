@@ -250,7 +250,8 @@ class BOStocksPage extends BOBasePage implements BOStockPageInterface {
    * @returns {Promise<number>}
    */
   async getProductsPagesLength(page: Page): Promise<number> {
-    if (await this.elementVisible(page, this.paginationListItem, 1000)) {
+    await this.waitForHiddenSelector(page, this.productListLoading);
+    if (await this.isVisibleNow(page, this.paginationListItem)) {
       return page.locator(this.paginationListItem).count();
     }
     return 1;
@@ -263,11 +264,16 @@ class BOStocksPage extends BOBasePage implements BOStockPageInterface {
    * @return {Promise<number>}
    */
   async paginateTo(page: Page, pageNumber: number = 1): Promise<number> {
-    await page.locator(this.paginationListItemLink(pageNumber)).click();
-    await page.waitForResponse(`**/api/stocks/**page_index=${pageNumber}**`);
-    if (await this.elementVisible(page, this.productListLoading, 5000)) {
-      await this.waitForHiddenSelector(page, this.productListLoading);
-    }
+    // Listen before clicking: the response can arrive before a listener registered afterwards.
+    await Promise.all([
+      page.waitForResponse(`**/api/stocks/**page_index=${pageNumber}**`),
+      page.locator(this.paginationListItemLink(pageNumber)).click(),
+    ]);
+    await this.waitForHiddenSelector(page, this.productListLoading);
+    // The list is re-rendered once the active page matches the requested one.
+    await page
+      .locator(`${this.paginationListItem}.active`, {hasText: new RegExp(`^\\s*${pageNumber}\\s*$`)})
+      .waitFor({state: 'visible'});
 
     return this.getNumberFromText(page, `${this.paginationListItem}.active`);
   }
@@ -314,8 +320,10 @@ class BOStocksPage extends BOBasePage implements BOStockPageInterface {
     const sortColumnSpanButton = this.sortColumnSpanButton(sortBy);
 
     let i: number = 0;
-    while (await this.elementNotVisible(page, sortColumnDiv, 2000) && i < 2) {
+    while (!(await this.isVisibleNow(page, sortColumnDiv)) && i < 2) {
       await this.waitForSelectorAndClick(page, sortColumnSpanButton);
+      // Returns as soon as the requested direction shows; times out when a second click is needed.
+      await this.elementVisible(page, sortColumnDiv, 2000);
       i += 1;
     }
 

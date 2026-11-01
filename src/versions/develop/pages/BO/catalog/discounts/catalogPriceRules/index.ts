@@ -173,7 +173,7 @@ class BOCatalogPriceRulesPage extends BOBasePage implements BOCatalogPriceRulesP
    * @return {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (!(await this.elementNotVisible(page, this.filterResetButton, 2000))) {
+    if (await this.isVisibleNow(page, this.filterResetButton)) {
       await this.clickAndWaitForURL(page, this.filterResetButton);
     }
     await this.waitForVisibleSelector(page, this.filterSearchButton, 2000);
@@ -194,7 +194,7 @@ class BOCatalogPriceRulesPage extends BOBasePage implements BOCatalogPriceRulesP
    * @return {Promise<number>}
    */
   async resetAndGetNumberOfLines(page: Page): Promise<number> {
-    if (!(await this.elementNotVisible(page, this.filterResetButton, 2000))) {
+    if (await this.isVisibleNow(page, this.filterResetButton)) {
       await this.resetFilter(page);
     }
     return this.getNumberOfElementInGrid(page);
