@@ -188,7 +188,7 @@ class BOCountriesPage extends BOBasePage implements BOCountriesPageInterface {
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
+    if (await this.isVisibleNow(page, this.filterResetButton)) {
       await page.locator(this.filterResetButton).click();
       await this.elementNotVisible(page, this.filterResetButton, 2000);
     }

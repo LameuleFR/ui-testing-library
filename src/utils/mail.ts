@@ -13,7 +13,9 @@ export default {
    */
   createMailListener(config = global.maildevConfig): MailDev {
     return new MailDev({
-      web: 1081,
+      // Mails are read through the API, not the web UI: a fixed web port would prevent running
+      // several test processes on one machine.
+      disableWeb: true,
       smtp: config.smtpPort,
       silent: config.silent,
     });
