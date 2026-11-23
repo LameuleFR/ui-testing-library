@@ -120,7 +120,7 @@ class BOContactsPage extends BOBasePage implements BOContactsPageInterface {
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await page.locator(this.filterResetButton).click();
       await page.mouse.move(0, 0);
       await this.waitForHiddenSelector(page, this.filterResetButton, 2000);

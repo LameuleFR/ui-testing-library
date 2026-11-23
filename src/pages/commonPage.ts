@@ -171,8 +171,8 @@ export default class CommonPage implements CommonPageInterface {
 
   /**
    * Is an element matching the selector visible right now, without waiting.
-   * Use it instead of elementVisible/elementNotVisible with a timeout when the page is already
-   * rendered (server-side state): those wait the full timeout whenever the answer is "no".
+   * Only for a state that nothing pending can still change: the timeout of elementVisible and
+   * elementNotVisible also gives a page that is still rendering or navigating time to settle.
    * @param page {Frame|Page} Browser tab
    * @param selector {string} String to locate the element
    * @returns {Promise<boolean>}

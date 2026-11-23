@@ -196,7 +196,7 @@ class BOCurrenciesPage extends BOLocalizationBasePage implements BOCurrenciesPag
      * @return {Promise<void>}
      */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await this.clickAndWaitForLoadState(page, this.filterResetButton);
       await this.elementNotVisible(page, this.filterResetButton, 2000);
     }

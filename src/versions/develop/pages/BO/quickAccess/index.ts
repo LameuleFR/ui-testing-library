@@ -200,7 +200,7 @@ class BOQuickAccessPage extends BOBasePage implements BOQuickAccessInterface {
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await this.clickAndWaitForURL(page, this.filterResetButton);
     }
   }

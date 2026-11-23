@@ -250,8 +250,7 @@ class BOStocksPage extends BOBasePage implements BOStockPageInterface {
    * @returns {Promise<number>}
    */
   async getProductsPagesLength(page: Page): Promise<number> {
-    await this.waitForHiddenSelector(page, this.productListLoading);
-    if (await this.isVisibleNow(page, this.paginationListItem)) {
+    if (await this.elementVisible(page, this.paginationListItem, 1000)) {
       return page.locator(this.paginationListItem).count();
     }
     return 1;
@@ -269,8 +268,8 @@ class BOStocksPage extends BOBasePage implements BOStockPageInterface {
       page.waitForResponse(`**/api/stocks/**page_index=${pageNumber}**`),
       page.locator(this.paginationListItemLink(pageNumber)).click(),
     ]);
+    // The loader shows from the click until the new rows are rendered.
     await this.waitForHiddenSelector(page, this.productListLoading);
-    // The list is re-rendered once the active page matches the requested one.
     await page
       .locator(`${this.paginationListItem}.active`, {hasText: new RegExp(`^\\s*${pageNumber}\\s*$`)})
       .waitFor({state: 'visible'});

@@ -135,7 +135,7 @@ class BOAddressesPage extends BOBasePage implements BOAddressesPageInterface {
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await page.locator(this.filterResetButton).click();
       // Move the mouse to avoid the tooltip on first row
       await page.mouse.move(0, 0);

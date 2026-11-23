@@ -305,7 +305,7 @@ class BOSeoUrlsPage extends BOBasePage implements BOSeoUrlsPageInterface {
    * @return {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await page.locator(this.filterResetButton).click();
       await this.elementNotVisible(page, this.filterResetButton, 2000);
     }
