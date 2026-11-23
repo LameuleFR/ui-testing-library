@@ -875,7 +875,7 @@ export default class BOBasePage extends CommonPage implements BOBasePagePageInte
   async clickSubMenu(page: Page, parentSelector: string): Promise<void> {
     const openSelector = await this.isSidebarCollapsed(page) ? '.ul-open' : '.open';
 
-    if (!(await this.isVisibleNow(page, `${parentSelector}${openSelector}`))) {
+    if (await this.elementNotVisible(page, `${parentSelector}${openSelector}`, 5000)) {
       // open the block
       await this.scrollTo(page, parentSelector);
 
@@ -924,7 +924,7 @@ export default class BOBasePage extends CommonPage implements BOBasePagePageInte
   async isSubmenuVisible(page: Page, parentSelector: string, linkSelector: string): Promise<boolean> {
     const openSelector = await this.isSidebarCollapsed(page) ? '.ul-open' : '.open';
 
-    if (!(await this.isVisibleNow(page, `${parentSelector}${openSelector}`))) {
+    if (await this.elementNotVisible(page, `${parentSelector}${openSelector}`, 1000)) {
       // Scroll before opening menu
       await this.scrollTo(page, parentSelector);
 
@@ -964,7 +964,7 @@ export default class BOBasePage extends CommonPage implements BOBasePagePageInte
    * @return {Promise<boolean>}
    */
   async isSidebarCollapsed(page: Page): Promise<boolean> {
-    return this.isVisibleNow(page, this.navbarCollapsed(true));
+    return this.elementVisible(page, this.navbarCollapsed(true), 1000);
   }
 
   /**

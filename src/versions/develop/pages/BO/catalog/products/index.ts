@@ -803,7 +803,7 @@ class ProductsPage extends BOBasePage implements BOProductsPageInterface {
    * @return {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (!(await this.elementNotVisible(page, this.filterResetButton, 2000))) {
       // Move the mouse to avoid the tooltip on first row
       await page.mouse.move(0, 0);
       await this.clickAndWaitForLoadState(page, this.filterResetButton);
@@ -828,7 +828,7 @@ class ProductsPage extends BOBasePage implements BOProductsPageInterface {
    * @returns {Promise<number>}
    */
   async getNumberOfProductsFromList(page: Page): Promise<number> {
-    const found = await this.isVisibleNow(page, this.paginationNextLink);
+    const found = await this.elementVisible(page, this.paginationNextLink, 1000);
 
     // In case we filter products and there is only one page, link next from pagination does not appear
     if (!found) {

@@ -150,7 +150,7 @@ class BORolesPage extends BOBasePage implements BORolesPageInterface {
    * @returns {Promise<number>}
    */
   async resetAndGetNumberOfLines(page: Page): Promise<number> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await this.clickAndWaitForLoadState(page, this.filterResetButton, 'load', 30000, {
         position: {
           x: 2,

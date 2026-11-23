@@ -186,7 +186,7 @@ class BOEmployeesPage extends BOBasePage implements BOEmployeesPageInterface {
    * @returns {Promise<number>}
    */
   async resetAndGetNumberOfLines(page: Page): Promise<number> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await this.clickAndWaitForLoadState(page, this.filterResetButton);
       await this.elementNotVisible(page, this.filterResetButton, 2000);
     }

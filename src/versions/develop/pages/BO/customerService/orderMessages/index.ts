@@ -132,7 +132,7 @@ class BOOrderMessagesPage extends BOBasePage implements BOOrderMessagesPageInter
    * @return {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await this.clickAndWaitForLoadState(page, this.filterResetButton);
       // Move the mouse to avoid the tooltip on first row
       await page.mouse.move(0, 0);

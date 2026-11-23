@@ -85,7 +85,7 @@ class BOOutstandingPage extends BOBasePage implements BOOutstandingPageInterface
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (!(await this.elementNotVisible(page, this.filterResetButton, 2000))) {
       await this.clickAndWaitForURL(page, this.filterResetButton);
     }
   }

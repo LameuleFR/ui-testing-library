@@ -176,7 +176,7 @@ class BOCategoriesPage extends BOBasePage implements BOCategoriesPageInterface {
    * @returns {Promise<void>}
    */
   async resetFilter(page: Page): Promise<void> {
-    if (await this.isVisibleNow(page, this.filterResetButton)) {
+    if (await this.elementVisible(page, this.filterResetButton, 2000)) {
       await page.locator(this.filterResetButton).click();
       await this.elementNotVisible(page, this.filterResetButton, 2000);
     }
