@@ -82,8 +82,6 @@ export default {
       locale: global.BROWSER.lang,
       viewport: null,
       permissions: global.BROWSER.name === 'chromium' ? ['clipboard-read'] : [],
-      // Bootstrap skips its transitions (modals, collapses) for reduced motion.
-      reducedMotion: process.env.REDUCED_MOTION === 'false' ? 'no-preference' : 'reduce',
       // @todo : Remove it when Puppeteer will accept self signed certificates
       ignoreHTTPSErrors: global.BROWSER.name === 'firefox',
     };
